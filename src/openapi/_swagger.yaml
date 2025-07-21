@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Swagger ShipoxExpress"
+  description: "ShipoxExpress api in the swagger-2.0 specification"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    name: "Swagger API Team"
+    email: "apiteam@swagger.io"
+    url: "http://swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+schemes:
+  - "https"
+  - "http"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: >-
+      Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345".
+security:
+  - Bearer: []
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /ping/:
+    $ref: "ping.yaml"
+
+  # Auth
+  /api/v1/auth/sign-up/:
+    $ref: "sign_up.yaml"
+  /api/v1/auth/sign-out/:
+    $ref: "sign_out.yaml"
+  /api/v1/auth/sign-in/:
+    $ref:  "sign_in.yaml"
+
+  # Me
+  /api/v1/me/:
+    $ref:  "me.yaml"
+
+  # Users
+  /api/v1/users/list/:
+    $ref: "users_list.yaml"
+  /api/v1/users/create/:
+    $ref: "users_create.yaml"
+  /api/v1/users/{id}/detail/:
+    $ref: "users_detail.yaml"
+  /api/v1/users/{id}/update/:
+    $ref: "users_update.yaml"
+  /api/v1/users/{id}/change-password/:
+    $ref: "users_change_password.yaml"
+  /api/v1/users/{id}/delete/:
+    $ref: "users_delete.yaml"
+
+  # Roles
+  /api/v1/roles/list/:
+    $ref: "roles_list.yaml"
+  /api/v1/roles/create/:
+    $ref: "roles_create.yaml"
+  /api/v1/roles/{id}/detail/:
+    $ref: "roles_detail.yaml"
+  /api/v1/roles/{id}/update/:
+    $ref: "roles_update.yaml"
+  /api/v1/roles/{id}/delete/:
+    $ref: "roles_delete.yaml"
+
+  # Permissions
+  /api/v1/permissions/list/:
+    $ref: "permissions_list.yaml"

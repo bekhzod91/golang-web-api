@@ -1,0 +1,14 @@
+post:
+  description: "SignOut"
+  tags:
+    - Auth
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+  responses:
+    '200':
+      description: ""
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+

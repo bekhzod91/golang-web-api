@@ -1,0 +1,41 @@
+post:
+  description: "SignIn"
+  tags:
+    - Auth
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - name: signin
+      in: body
+      required: true
+      schema:
+        $ref: "#/definitions/SignInRequestDTO"
+
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/SignInResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  SignInRequestDTO:
+    required:
+      - email
+      - password
+    type: object
+    properties:
+      email:
+        x-isnullable: false
+        type: string
+        example: "nicole.kidman@example.com"
+      password:
+        x-isnullable: false
+        type: string
+        example: "Test1234"
+  SignInResponseDTO:
+    type: object
+    properties:
+      token:
+        type: string

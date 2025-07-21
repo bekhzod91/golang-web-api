@@ -1,0 +1,50 @@
+put:
+  security:
+    - Bearer: [ ]
+  description: "Update a role"
+  tags:
+    - Role
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - $ref: "common.yaml#/parameters/id"
+    - name: role
+      in: body
+      schema:
+        $ref: "#/definitions/UpdateRoleRequestDTO"
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/UpdateRoleResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  UpdateRoleRequestDTO:
+    type: object
+    required:
+      - name
+      - code
+    properties:
+      name:
+        type: string
+        example: "operator"
+        x-nullable: false
+      code:
+        type: string
+        example: "Operator"
+        x-nullable: false
+      description:
+        type: string
+        example: "An Admin manages system operations, user access, and security, ensuring smooth functionality and compliance with organizational policies."
+      permissions:
+        type: array
+        example: [ "view_role", "create_role", "update_role", "delete_role" ]
+        items:
+          type: string
+  UpdateRoleResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer

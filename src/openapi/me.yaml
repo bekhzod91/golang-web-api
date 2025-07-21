@@ -1,0 +1,63 @@
+get:
+  security:
+    - Bearer: [ ]
+  description: "Me"
+  tags:
+    - Me
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/MeResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  MeResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      email:
+        type: string
+        example: "admin@example.com"
+      status:
+        type: string
+        example: "active"
+      photo:
+        type: string
+        example: "https://cdn.idh.com/myphoto.png"
+      first_name:
+        type: string
+        example: "nicole"
+      last_name:
+        type: string
+        example: "kidman"
+      roles:
+        type: array
+        items:
+          type: object
+          example:
+            - id: 1
+              name: "Owner"
+              permissions: ["view_user", "create_user", "update_user", "delete_user"]
+            - id: 2
+              name: "Moderator"
+              permissions: [ "view_user"]
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            permissions:
+              type: array
+              items:
+                type: string
+      created_at:
+        type: string
+        example: "2024-01-01T00:00:00.000000"
+      updated_at:
+        type: string
+        example: "2024-01-02T00:00:00.000000"

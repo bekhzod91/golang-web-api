@@ -1,0 +1,90 @@
+get:
+  security:
+    - Bearer: []
+  description: "Returns list of users"
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - $ref: "common.yaml#/parameters/limit"
+    - $ref: "common.yaml#/parameters/offset"
+    - name: status
+      in: query
+      description: "Filter by status"
+      required: false
+      type: string
+    - name: created_at__lte
+      in: query
+      description: "Filter by created at (start)"
+      required: false
+      type: string
+    - name: created_at__gte
+      in: query
+      description: "Filter by created at (end)"
+      required: false
+      type: string
+    - name: search
+      in: query
+      description: "Search by fields [email, first_name]"
+      required: false
+      type: string
+    - name: sort_by
+      in: query
+      description: "Sort by fields [id, email, first_name, last_name, status, created_at]"
+      required: false
+      type: string
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/ListUsersResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+  tags:
+    - User
+definitions:
+  ListUsersResponseDTO:
+    type: object
+    properties:
+      pagination:
+        $ref: "common.yaml#/definitions/Pagination"
+      results:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            email:
+              type: string
+              example: "admin@example.com"
+            status:
+              type: string
+              example: "active"
+            first_name:
+              type: string
+              example: "Bekhzod"
+            last_name:
+              type: string
+              example: "Tillakhanov"
+            roles:
+              type: array
+              items:
+                type: object
+                example:
+                  - id: 1
+                    name: "Owner"
+                  - id: 2
+                    name: "Moderator"
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+            created_at:
+              type: string
+              example: "2024-01-01T00:00:00.000000"
+            updated_at:
+              type: string
+              example: "2024-01-02T00:00:00.000000"

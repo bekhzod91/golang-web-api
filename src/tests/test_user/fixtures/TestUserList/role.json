@@ -1,0 +1,28 @@
+[
+  {
+    "table": "role",
+    "fields": {
+      "id": 3,
+      "code": "owner",
+      "name": "Owner",
+      "description": "",
+      "permissions": ["view_user", "create_user", "edit_user",  "delete_user"],
+      "created_at": "2024-01-01 00:00:00.000000",
+      "updated_at": "2024-02-02 00:00:00.000000",
+      "is_deleted": false
+    }
+  },
+  {
+    "table": "role",
+    "fields": {
+      "id": 2,
+      "code": "operator",
+      "name": "Operator",
+      "description": "",
+      "permissions": ["view_user"],
+      "created_at": "2024-01-01 00:00:00.000000",
+      "updated_at": "2024-02-02 00:00:00.000000",
+      "is_deleted": false
+    }
+  }
+]

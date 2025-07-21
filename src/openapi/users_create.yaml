@@ -1,0 +1,75 @@
+post:
+  security:
+    - Bearer: []
+  description: "Create a user"
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - name: user
+      in: body
+      schema:
+        $ref: "#/definitions/CreateUserRequestDTO"
+  responses:
+    '201':
+      description: ""
+      schema:
+        $ref: "#/definitions/CreateUserResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+  tags:
+    - User
+definitions:
+  CreateUserRequestDTO:
+    type: object
+    required:
+      - email
+      - password
+      - first_name
+      - last_name
+      - birth_date
+      - phone
+    properties:
+      email:
+        type: string
+        x-isnullable: false
+        example: "admin@example.com"
+      password:
+        type: string
+        x-isnullable: false
+        example: "Test1234"
+      photo:
+        type: string
+        x-isnullable: false
+        example: "https://cdn.idh.com/myphoto.png"
+      first_name:
+        type: string
+        x-isnullable: false
+        example: "Adam"
+      last_name:
+        type: string
+        x-isnullable: false
+        example: "Smith"
+      status:
+        type: string
+        x-isnullable: false
+        example: "active"
+      phone:
+        type: string
+        x-isnullable: false
+        example: "198900010101"
+      birth_date:
+        type: string
+        x-isnullable: false
+        example: "2024-01-01T00:00:00.000000"
+      roles:
+        example: [1,2,3]
+        type: array
+        items:
+          type: integer
+  CreateUserResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1

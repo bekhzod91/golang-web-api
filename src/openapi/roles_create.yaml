@@ -1,0 +1,49 @@
+post:
+  security:
+    - Bearer: []
+  description: "Create a lab"
+  tags:
+    - Role
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - name: role
+      in: body
+      schema:
+        $ref: "#/definitions/CreateRoleRequestDTO"
+  responses:
+    '201':
+      description: ""
+      schema:
+        $ref: "#/definitions/CreateRoleResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  CreateRoleRequestDTO:
+    type: object
+    required:
+      - code
+      - name
+    properties:
+      name:
+        type: string
+        example: "admin"
+        x-nullable: false
+      code:
+        type: string
+        example: "admin"
+        x-nullable: false
+      description:
+        type: string
+        example: "An Admin manages system operations, user access, and security, ensuring smooth functionality and compliance with organizational policies."
+      permissions:
+        type: array
+        example: [ "view_role", "create_role", "update_role", "delete_role" ]
+        items:
+          type: string
+  CreateRoleResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer

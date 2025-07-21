@@ -1,0 +1,17 @@
+get:
+  description: "Ping pong"
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/PingResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  PingResponseDTO:
+    type: object
+    properties:
+      message:
+        type: string

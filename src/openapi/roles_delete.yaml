@@ -1,0 +1,16 @@
+delete:
+  security:
+    - Bearer: [ ]
+  tags:
+    - Role
+  description: "Delete a role"
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - $ref: "common.yaml#/parameters/id"
+  responses:
+    '200':
+      description: ""
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"

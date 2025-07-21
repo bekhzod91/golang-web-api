@@ -1,0 +1,78 @@
+[
+  {
+    "table": "user",
+    "fields": {
+      "id": 1,
+      "email": "admin@example.com",
+      "password": "$2a$14$bU2PsnNVKvgv7wOShwldIOimkAXMEIBx76g0CaM6QzWuO5inacI1O",
+      "status": "active",
+      "photo": "https://cdn.idh.com/myphoto1.jpeg",
+      "first_name": "Adam",
+      "last_name": "Smith",
+      "role_ids": [3,2],
+      "phone": "998947654321",
+      "birth_date": "2000-01-01",
+      "last_login": "2024-01-01 00:00:00.000000",
+      "created_at": "2024-01-01 00:00:00.000000",
+      "updated_at": "2024-02-02 00:00:00.000000",
+      "is_deleted": false
+    }
+  },
+  {
+    "table": "user",
+    "fields": {
+      "id": 2,
+      "email": "albert.einstein@gmail.com",
+      "password": "$2a$14$bU2PsnNVKvgv7wOShwldIOimkAXMEIBx76g0CaM6QzWuO5inacI1O",
+      "status": "active",
+      "photo": "https://cdn.idh.com/myphoto2.jpeg",
+      "first_name": "Albert",
+      "last_name": "Einstein",
+      "role_ids": [1],
+      "phone": "998947654321",
+      "birth_date": "2000-01-01",
+      "last_login": "2024-01-01 00:00:00.000000",
+      "created_at": "2023-01-01 00:00:00.000000",
+      "updated_at": "2023-02-02 00:00:00.000000",
+      "is_deleted": false
+    }
+  },
+  {
+    "table": "user",
+    "fields": {
+      "id": 3,
+      "email": "werner.heisenberg@gmail.com",
+      "password": "$2a$14$bU2PsnNVKvgv7wOShwldIOimkAXMEIBx76g0CaM6QzWuO5inacI1O",
+      "status": "inactive",
+      "photo": "https://cdn.idh.com/myphoto3.jpeg",
+      "first_name": "Werner",
+      "last_name": "Heisenberg",
+      "role_ids": [2],
+      "phone": "998947654321",
+      "birth_date": "2000-01-01",
+      "last_login": "2024-01-01 00:00:00.000000",
+      "created_at": "2022-01-01 00:00:00.000000",
+      "updated_at": "2022-02-02 00:00:00.000000",
+      "is_deleted": false
+    }
+  },
+  {
+    "table": "user",
+    "fields": {
+      "id": 4,
+      "email": "isaac.newton@gmail.com",
+      "password": "$2a$14$bU2PsnNVKvgv7wOShwldIOimkAXMEIBx76g0CaM6QzWuO5inacI1O",
+      "status": "inactive",
+      "photo": "https://cdn.idh.com/myphoto4.jpeg",
+      "first_name": "Isaak",
+      "last_name": "Newton",
+      "role_ids": [3],
+      "phone": "998947654321",
+      "birth_date": "2000-01-01",
+      "last_login": "2024-01-01 00:00:00.000000",
+      "created_at": "2020-01-01 00:00:00.000000",
+      "updated_at": "2020-02-02 00:00:00.000000",
+      "is_deleted": true
+    }
+  }
+]

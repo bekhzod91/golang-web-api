@@ -1,0 +1,75 @@
+get:
+  security:
+    - Bearer: []
+  description: "Returns list of roles"
+  tags:
+    - Role
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - $ref: "common.yaml#/parameters/limit"
+    - $ref: "common.yaml#/parameters/offset"
+    - name: search
+      in: query
+      description: "Search by [name, code]"
+      required: false
+      type: string
+    - name: created_at__lte
+      in: query
+      description: "Filter by created at (start) format: 2024-12-31 23:59:59"
+      required: false
+      type: string
+    - name: created_at__gte
+      in: query
+      description: "Filter by created at (end) format: 2024-12-31 23:59:59"
+      required: false
+      type: string
+    - name: order_by
+      in: query
+      description: "Ordering"
+      required: false
+      type: string
+      enum:
+        - id_asc
+        - id_desc
+        - code_asc
+        - code_desc
+        - name_asc
+        - name_desc
+        - created_at_asc
+        - created_at_desc
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/ListRoleResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  ListRoleResponseDTO:
+    type: object
+    properties:
+      pagination:
+        $ref: "common.yaml#/definitions/Pagination"
+      results:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: "admin"
+            code:
+              type: string
+              example: "admin"
+            description:
+              type: string
+              example: "An Admin manages system operations, user access, and security, ensuring smooth functionality and compliance with organizational policies."
+            created_at:
+              type: string
+            updated_at:
+              type: string

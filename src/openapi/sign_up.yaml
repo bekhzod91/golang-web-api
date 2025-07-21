@@ -1,0 +1,62 @@
+post:
+  description: "SignUp"
+  tags:
+    - Auth
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - name: signup
+      in: body
+      required: true
+      schema:
+        $ref: "#/definitions/SignUpRequestDTO"
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/SignUpResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  SignUpRequestDTO:
+    type: object
+    required:
+      - first_name
+      - last_name
+      - phone
+      - birth_date
+      - email
+      - password
+    properties:
+      first_name:
+        type: string
+        x-isnullable: false
+        example: "Nicole"
+      last_name:
+        type: string
+        x-isnullable: false
+        example: "Kidman"
+      phone:
+        type: string
+        x-isnullable: false
+        example: "12124567890"
+      birth_date:
+        type: string
+        x-isnullable: false
+        example: "2001-01-01"
+      email:
+        type: string
+        x-isnullable: false
+        example: "nicole.kidman@example.com"
+      password:
+        type: string
+        x-isnullable: false
+        example: "Test1234"
+  SignUpResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+      token:
+        type: string

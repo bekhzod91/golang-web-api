@@ -1,0 +1,15 @@
+services:
+  app-backend:
+    restart: always
+    env_file:
+      - /conf/application.env
+    image: $IMAGE
+    container_name: app-backend
+    ports:
+      - "8000:8000"
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

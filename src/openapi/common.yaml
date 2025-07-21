@@ -1,0 +1,47 @@
+parameters:
+  id:
+    name: id
+    in: path
+    description: ID of the object
+    required: true
+    type: integer
+    format: int32
+  limit:
+    name: limit
+    in: query
+    description: Limit
+    required: false
+    type: integer
+    format: int32
+  offset:
+    name: offset
+    in: query
+    description: Number of results to skip
+    required: false
+    type: integer
+    format: int32
+  tenant:
+    name: "X-Tenant"
+    in: "header"
+    type: "string"
+    required: true
+    description: "Tenant identifier for multi-tenancy"
+definitions:
+  ErrorDTO:
+    type: object
+    properties:
+      message:
+        type: string
+  Pagination:
+    type: object
+    properties:
+      offset:
+        type: integer
+      limit:
+        type: integer
+      has_next:
+        type: boolean
+      has_prev:
+        type: boolean
+      total_count:
+        type: integer

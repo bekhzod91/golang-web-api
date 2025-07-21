@@ -1,0 +1,69 @@
+put:
+  security:
+    - Bearer: []
+  description: "Update a user"
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - $ref: "common.yaml#/parameters/id"
+    - name: user
+      in: body
+      schema:
+        $ref: "#/definitions/UpdateUserRequestDTO"
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/UpdateUserResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+  tags:
+    - User
+definitions:
+  UpdateUserRequestDTO:
+    type: object
+    required:
+      - first_name
+      - last_name
+      - status
+      - phone
+      - birthdate
+    properties:
+      first_name:
+        type: string
+        x-isnullable: false
+        example: "Adam"
+      last_name:
+        type: string
+        x-isnullable: false
+        example: "Smith"
+      photo:
+        type: string
+        x-isnullable: false
+        example: "https://cdn.idh.com/myphoto.png"
+      status:
+        type: string
+        x-isnullable: false
+        enum:
+          - active
+          - inactive
+        example: "active"
+      birth_date:
+        type: string
+        x-isnullable: false
+        example: "2000-01-01"
+      phone:
+        type: string
+        x-isnullable: false
+        example: "98810000101"
+      roles:
+        example: [1,2,3]
+        type: array
+        items:
+          type: integer
+  UpdateUserResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer

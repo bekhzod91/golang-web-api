@@ -1,0 +1,34 @@
+variables:
+  IMAGE: "registry.github.com/hzmat24/api:$CI_COMMIT_SHA"
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - docker system prune -af
+
+stages:
+  - build
+  - deploy
+  - rollback
+
+build:
+  stage: build
+  variables:
+    GIT_STRATEGY: clone
+  script:
+    - docker build -t $IMAGE .
+    - docker push $IMAGE  
+    - docker system prune -af
+  only:
+    - main
+  tags:
+    - build
+
+deploy:
+  stage: deploy
+  script:
+    - docker pull $IMAGE
+    - docker-compose up -d
+  only:
+    - main
+  tags:
+    - build

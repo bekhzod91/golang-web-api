@@ -1,0 +1,86 @@
+get:
+  security:
+    - Bearer: []
+  description: "Returns list of users"
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - $ref: "common.yaml#/parameters/id"
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/DetailUserResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+  tags:
+    - User
+definitions:
+  DetailUserResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        x-isnullable: false
+        example: 1
+      email:
+        type: string
+        x-isnullable: false
+        example: "admin@example.com"
+      status:
+        type: string
+        x-isnullable: false
+        example: "active"
+      photo:
+        type: string
+        x-isnullable: false
+        example: "https://cdn.idh.com/myphoto.png"
+      first_name:
+        type: string
+        x-isnullable: false
+        example: "Bekhzod"
+      last_name:
+        type: string
+        x-isnullable: false
+        example: "Tillakhanov"
+      roles:
+        type: array
+        items:
+          type: object
+          example:
+            - id: 1
+              name: "Owner"
+              permissions: ["view_user", "create_user", "update_user", "delete_user"]
+            - id: 2
+              name: "Moderator"
+              permissions: [ "view_user"]
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            permissions:
+              type: array
+              items:
+                type: string
+      phone:
+        type: string
+        x-isnullable: false
+        example: "9880101010011"
+      birth_date:
+        type: string
+        x-isnullable: false
+        example: "2000-01-01"
+      last_login:
+        type: string
+        x-isnullable: false
+        example: "2024-01-01 00:00:00.000000"
+      created_at:
+        type: string
+        x-isnullable: false
+        example: "2024-01-01 00:00:00.000000"
+      updated_at:
+        type: string
+        x-isnullable: false
+        example: "2024-01-02 00:00:00.000000"

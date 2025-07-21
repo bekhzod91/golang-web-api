@@ -1,0 +1,38 @@
+get:
+  security:
+    - Bearer: [ ]
+  description: "Return a role"
+  tags:
+    - Role
+  parameters:
+    - $ref: "common.yaml#/parameters/tenant"
+    - $ref: "common.yaml#/parameters/id"
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/DetailRoleResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  DetailRoleResponseDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      code:
+        type: string
+      description:
+        type: string
+      permissions:
+        type: array
+        items:
+          type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string

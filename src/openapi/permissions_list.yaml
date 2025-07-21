@@ -1,0 +1,27 @@
+get:
+  security:
+    - Bearer: []
+  description: "Returns list of permissions"
+  tags:
+    - Permissions
+  responses:
+    '200':
+      description: ""
+      schema:
+        $ref: "#/definitions/ListPermissionResponseDTO"
+    default:
+      description: "unexpected error"
+      schema:
+        $ref: "common.yaml#/definitions/ErrorDTO"
+definitions:
+  ListPermissionResponseDTO:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "view_user"
