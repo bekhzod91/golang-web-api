@@ -9,40 +9,23 @@ import (
 	"github.com/hzmat24/api/infrastructure/core"
 )
 
-type ChangePasswordCommand struct {
-	ctx      core.IContext
-	ID       int64
-	Request  *dto.ChangePasswordUserRequestDTO
-	Response *dto.ChangePasswordUserResponseDTO
-}
-
-func NewChangePasswordCommand(ctx core.IContext, id int64, request *dto.ChangePasswordUserRequestDTO) *ChangePasswordCommand {
-	return &ChangePasswordCommand{
-		ctx:      ctx,
-		ID:       id,
-		Request:  request,
-		Response: &dto.ChangePasswordUserResponseDTO{},
-	}
-}
-
-func (c *ChangePasswordCommand) Execute(ctx core.IContext, id int64, request dto.ChangePasswordUserRequestDTO) error {
+func ChangeUserPassword(ctx core.IContext, id int64, request dto.ChangePasswordUserRequestDTO) (*dto.ChangePasswordUserResponseDTO, error) {
 	user, err := ctx.Storage().User().GetUserByID(id)
 	if err != nil {
-		return fmt.Errorf("get lab by id: %w", err)
+		return nil, err
 	}
 
 	password, err := value_object.NewPassword(request.NewPassword)
 	if err != nil {
-		return fmt.Errorf("password: %w", err)
+		return nil, err
 	}
 
 	user.Password = password
 	user, err = ctx.Storage().User().ChangePasswordUser(user)
 	if err != nil {
-		ctx.Logger().Error(fmt.Sprintf("Error updating user: %s", err))
-		return errors.New("error updating lab")
+		ctx.Logger().Error(fmt.Sprintf("error change password: %s", err))
+		return nil, errors.New("we couldn't updating user password. please try again later or contact support")
 	}
 
-	c.Response = &dto.ChangePasswordUserResponseDTO{ID: user.ID}
-	return nil
+	return &dto.ChangePasswordUserResponseDTO{ID: user.ID}, nil
 }
