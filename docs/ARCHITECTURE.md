@@ -1,122 +1,307 @@
-# ARCHITECTURE
+# Architecture
 
-## How to write code in this project (DDD workflow)
+This project is a **multi-tenant REST API** built in Go, following **Clean Architecture** and **Domain-Driven Design (DDD)** principles.
 
-When adding new code, your first question should be:
-
-> “Where should this rule live so the domain stays consistent even if we change the UI/DB/framework?”
-
-We follow DDD + Clean Architecture:
-
-- **Domain**: business rules (no DB, no HTTP, no frameworks)
-- **Application**: use-cases / orchestration
-- **Infrastructure**: DB/Redis/HTTP clients, implementations
-- **Interface (Delivery)**: HTTP handlers/controllers, DTOs
-
-### Priority: where to place logic
-
-#### 1) Value Objects (smallest block — “brick”)
-
-A Value Object represents a meaningful domain concept **without identity**, usually immutable, and responsible for its own invariants.
-
-**Put logic here if it is about that value only:**
-- validation (format/range)
-- normalization
-- comparisons
-- small domain behavior
-
-**Examples:**
-- `Email`, `PhoneNumber`, `Money`, `Password`, `TenantID`
-
-✅ Example:
-- `user.Password.Verify("test123")`
-
-Rule of thumb:
-- If you can describe it as “rules of this value”, it belongs in the Value Object.
+> For DDD-specific code placement rules (Value Objects, Entities, Domain Services, etc.), see [DDD.md](DDD.md).
 
 ---
 
-#### 2) Entities (identity + consistency across multiple fields)
+## Tech Stack
 
-Entities have identity and lifecycle. They protect invariants that involve multiple fields / VOs.
-
-**Put logic here if:**
-- it changes the entity’s state
-- it must keep the entity consistent
-- it uses multiple fields/VOs of the same entity
-
-✅ Examples:
-- `User.ChangePassword(...)`
-- `Order.AddStop(...)`
-- `Invoice.Approve()` / `Reject(reason)`
-
-Rule of thumb:
-- If the entity must remain valid after the change, the method belongs on the entity.
+| Concern | Technology |
+|---------|-----------|
+| Language | Go 1.23 |
+| HTTP Router | [chi](https://github.com/go-chi/chi) |
+| Database | PostgreSQL (`pgx` / `database/sql`) |
+| Cache / Token store | Redis |
+| DB query generation | [SQLC](https://sqlc.dev) |
+| API contract | OpenAPI 2.0 (Swagger) |
+| Message broker | Apache Pulsar _(optional)_ |
+| File storage | AWS S3 |
+| Migrations | [golang-migrate](https://github.com/golang-migrate/migrate) |
 
 ---
 
-#### 3) Domain Services (domain logic across multiple entities)
+## Directory Structure
 
-Sometimes a rule doesn’t belong to one entity/VO.
-
-**Use a Domain Service when:**
-- the logic spans multiple entities
-- it’s still pure domain (no DB/HTTP)
-- there is no clear single owner
-
-✅ Examples:
-- `PricingCalculator`
-- `SettlementCalculator`
-- `DispatchMatchingService`
-
-Rule of thumb:
-- If it’s domain logic but “ownerless”, make it a domain service.
+```
+.
+├── Dockerfile
+├── Makefile
+├── docker-compose.yml
+├── entrypoint.sh
+└── src/
+    ├── cmd/
+    │   ├── server/          # Entrypoint: starts the HTTP server
+    │   ├── migrate/         # Entrypoint: runs database migrations
+    │   ├── consumer/        # Entrypoint: Pulsar message consumer
+    │   └── producer/        # Entrypoint: Pulsar message producer
+    │
+    ├── config/              # App configuration (env → Config struct)
+    │
+    ├── domain/              # ── DOMAIN LAYER (pure Go, zero framework deps) ──
+    │   ├── entity/          # Aggregates with identity (User, Role, Tenant)
+    │   ├── value_object/    # Immutable typed values (Email, Password, Token…)
+    │   ├── repository/      # Repository interfaces — no implementations here
+    │   └── exception/       # Domain error types (DomainError, NotFoundError)
+    │
+    ├── application/         # ── APPLICATION LAYER (use-cases) ──
+    │   ├── command/         # Write: SignIn, CreateUser, DeleteRole, UploadFile…
+    │   └── query/           # Read: GetMe, GetUsers, GetRoles, GetPermissions…
+    │
+    ├── infrastructure/      # ── INFRASTRUCTURE LAYER (I/O, HTTP, DB) ──
+    │   ├── api/
+    │   │   ├── dto/         # Request/response structs (Swagger → generated Go)
+    │   │   ├── handler/     # HTTP handlers — thin, delegate to application layer
+    │   │   ├── helper/      # Pagination & string conversion helpers
+    │   │   └── router/      # Route registration (public + tenant-scoped groups)
+    │   ├── core/            # App bootstrap, IMux, IContext, middlewares
+    │   ├── migrations/
+    │   │   ├── shared/      # Migrations for the public/shared schema
+    │   │   └── tenant/      # Migrations applied to every tenant schema
+    │   ├── sqlc/            # SQLC-generated type-safe query code
+    │   └── storage/         # IStorage + concrete repository implementations
+    │
+    ├── pkg/                 # ── SHARED PACKAGES (any layer may import) ──
+    │   ├── aws/             # AWS S3 client wrapper
+    │   ├── env/             # .env loader (godotenv)
+    │   ├── funcutils/       # Generic slice helpers
+    │   ├── logger/          # Structured logger factory (slog / httplog)
+    │   ├── multi_tenency/   # Tenant DB routing + X-Tenant middleware
+    │   ├── postgres/        # *sql.DB connection pool factory
+    │   ├── pulsar/          # Apache Pulsar client wrapper
+    │   ├── randutil/        # Cryptographically-safe random string generation
+    │   └── redis/           # *redis.Client factory
+    │
+    ├── openapi/             # OpenAPI 2.0 YAML specs (one file per endpoint)
+    ├── static/swagger/      # Compiled swagger.json (served at /swagger/)
+    ├── tests/               # Black-box API test suite
+    │   ├── conf.go          # Test harness (NewTestApp, BindJSON helpers)
+    │   ├── test_auth/
+    │   ├── test_user/
+    │   ├── test_role/
+    │   ├── test_permissions/
+    │   └── test_upload_file/
+    ├── query.sql            # Raw SQL queries (SQLC input)
+    └── sqlc.yaml            # SQLC configuration
+```
 
 ---
 
-#### 4) Application Services / Use-cases (orchestration)
+## Architecture Layers
 
-This layer coordinates steps for a user action:
-- load aggregate(s) from repository
-- call domain methods (VO/Entity/Domain Service)
-- persist changes
-- publish events (if you use them)
-- manage transaction boundaries
+Dependencies flow **inward only** — outer layers depend on inner layers, never the reverse.
 
-✅ Examples:
-- `CreateOrder`
-- `AssignDriverToTrip`
-- `ApproveInvoice`
+```
+┌──────────────────────────────────────────────┐
+│              Infrastructure                  │  HTTP, DB, Redis, AWS, SQLC
+│   ┌──────────────────────────────────────┐   │
+│   │            Application               │   │  Commands + Queries (use-cases)
+│   │   ┌──────────────────────────────┐   │   │
+│   │   │           Domain             │   │   │  Entities, VOs, repo interfaces
+│   │   └──────────────────────────────┘   │   │
+│   └──────────────────────────────────────┘   │
+└──────────────────────────────────────────────┘
+         pkg/ (shared utilities — any layer)
+```
 
-Rule of thumb:
-- Application service = “what happens when user does X”
+### Domain Layer — `src/domain/`
 
-Keep this layer thin: **no deep business rules**, those belong to the domain.
+The innermost layer. **No external dependencies** (no DB drivers, no HTTP, no framework).
+
+| Package | Contents |
+|---------|---------|
+| `entity/` | `User`, `Role`, `Tenant` — objects with identity and lifecycle. Own their own state invariants. |
+| `value_object/` | `Email`, `Password`, `Token`, `Status`, `PhoneNumber`, `Date`, `Image`, `Rating`, `Tags`, … Each VO validates itself on construction and carries domain behaviour (e.g., `Password.VerifyPassword`). |
+| `repository/` | `IUserRepository`, `IRoleRepository`, `ITokenRepository` — pure Go interfaces that define *what* persistence operations exist. Implementations live in `infrastructure/storage/`. |
+| `exception/` | `DomainError`, `NotFoundError`, `exception.New()`, `IsDomainException()` — lets callers distinguish domain failures from infrastructure errors. |
+
+### Application Layer — `src/application/`
+
+Orchestrates use-cases. Depends **only** on the domain layer and the `core.IContext` interface.
+
+- **Commands** (writes): `SignIn`, `SignUp`, `SignOut`, `CreateUser`, `UpdateUser`, `DeleteUser`, `ChangeUserPassword`, `CreateRole`, `UpdateRole`, `DeleteRole`, `UploadFile`
+- **Queries** (reads): `GetMe`, `GetUsers`, `GetUserByID`, `GetRoles`, `GetRoleByID`, `GetPermissions`
+
+Every function follows the same signature pattern:
+```go
+func CreateUser(ctx core.IContext, req dto.CreateUserRequestDTO) (*dto.CreateUserResponseDTO, error)
+```
+
+No framework imports. No direct DB calls. Business rules live here and in the domain.
+
+### Infrastructure Layer — `src/infrastructure/`
+
+Implements everything that touches I/O.
+
+| Sub-package | Responsibility |
+|-------------|---------------|
+| `api/handler/` | HTTP handlers — parse request DTO, call command/query, render response. Deliberately thin. |
+| `api/dto/` | Request/response structs auto-generated by `swagger generate model`. Never hand-edit. |
+| `api/router/` | Two route groups: `PublicRoutes` (no auth) and `TenantRoutes` (requires `X-Tenant` + JWT). |
+| `core/` | `App`, `IMux` (chi wrapper), `IContext`, `Authorization` middleware, `AppMiddleware`. |
+| `storage/` | `IStorage` + concrete implementations using `database/sql` and Redis. |
+| `sqlc/` | Type-safe query code generated by SQLC from `query.sql`. |
+| `migrations/` | `*.up.sql` / `*.down.sql` files, split into `shared/` and `tenant/` directories. |
+
+### Shared Packages — `src/pkg/`
+
+Framework-agnostic packages importable by any layer.
+
+| Package | Purpose |
+|---------|---------|
+| `multi_tenency` | `MultiTenancy` HTTP middleware + `DB` struct that manages per-tenant `search_path` connections |
+| `postgres` | Creates a `*sql.DB` connection pool from config |
+| `redis` | Creates a `*redis.Client` from config |
+| `aws` | Thin S3 upload/download wrapper |
+| `logger` | Structured logger factory (`slog` + `httplog`) |
+| `env` | Loads `.env` via `godotenv` |
+| `pulsar` | Apache Pulsar producer/consumer client |
+| `funcutils` | Generic slice helpers (e.g., `Uniq`) |
+| `randutil` | Cryptographically-safe random string generation |
 
 ---
 
-#### 5) Repositories (persistence abstraction — NOT business logic)
+## Request Lifecycle
 
-Repositories exist to **load/save aggregates** and hide persistence details.
+Flow for a typical **authenticated, tenant-scoped** API call:
 
-**Repositories should:**
-- fetch and persist aggregates/entities
-- map storage models ↔ domain models (often in infra)
-- provide query methods (careful: avoid leaking persistence details into domain)
-
-**Repositories should NOT:**
-- contain business decisions (`if status == ... then ...`)
-- enforce domain invariants (that’s domain’s job)
-
-Rule of thumb:
-- If the code needs DB/Redis/SQL/ORM knowledge, it’s infrastructure, not domain logic.
+```
+Client
+  │  POST /api/v1/users/create/
+  │  Authorization: Bearer <token>
+  │  X-Tenant: <schema_name>
+  ▼
+chi Router
+  ├─ AppMiddleware       — injects *App (config, DB pool, Redis, AWS) into context
+  ├─ RequestLogger       — structured request/response logging
+  ├─ RealIP             — resolves real client IP
+  ├─ Recoverer          — catches panics, returns 500
+  │
+  │  [Tenant-scoped group]
+  ├─ MultiTenancy        — reads X-Tenant header
+  │                        validates schema exists in shared tenant table
+  │                        opens (or reuses) *sql.DB with SET search_path = <schema>
+  │                        injects *Tenant into context
+  │
+  │  [Private sub-group]
+  └─ Authorization       — reads Bearer token from header
+                           validates token via Redis
+                           injects *entity.User into context
+  ▼
+Handler  (infrastructure/api/handler/)
+  │  Parses & validates request DTO
+  │  Calls application-layer command or query
+  ▼
+Command / Query  (application/command/ or application/query/)
+  │  Constructs/validates domain Value Objects
+  │  Calls domain entity methods
+  │  Reads / writes via ctx.Storage()
+  ▼
+IStorage  (infrastructure/storage/)
+  ├─ UserRepository   → tenant PostgreSQL (*sql.DB, schema-scoped)
+  ├─ RoleRepository   → tenant PostgreSQL
+  └─ TokenRepository  → Redis
+```
 
 ---
 
-## Quick decision checklist
+## Multi-Tenancy
 
-- Is it a rule about a single value? → **Value Object**
-- Does it keep one entity consistent while changing state? → **Entity**
-- Does it involve multiple domain objects but no infrastructure? → **Domain Service**
-- Is it a use-case that coordinates steps + persistence? → **Application Service**
-- Is it about storage/query/DB/Redis? → **Repository (infrastructure)**
+The API uses **PostgreSQL schema-based tenancy**: each tenant has its own schema inside a single database instance.
+
+| Schema | Contents |
+|--------|---------|
+| `public` (shared) | `tenant` registry table, global configuration |
+| `<tenant_name>` | Per-tenant: `user`, `role`, `permission` tables |
+
+**Runtime flow:**
+
+1. Client includes `X-Tenant: <schema_name>` on every request.
+2. `MultiTenancy` middleware looks up the schema name in the shared `tenant` table.
+3. Opens a `*sql.DB` connection and runs `SET search_path TO <schema_name>` — this connection is cached in a `map[string]*sql.DB` inside the `DB` struct for the lifetime of the process.
+4. The tenant connection is injected into the request context; `ctx.Storage()` uses it transparently.
+5. Handlers and commands are **completely unaware** of tenancy — they just call `ctx.Storage().User()`.
+
+---
+
+## Code Generation
+
+### SQLC
+
+`src/query.sql` contains raw SQL. Running `make sqlc` regenerates:
+
+| Generated file | Contents |
+|----------------|---------|
+| `infrastructure/sqlc/models.go` | Go structs mirroring every DB table |
+| `infrastructure/sqlc/query.sql.go` | Type-safe query functions |
+| `infrastructure/sqlc/db.go` | `*Queries` struct + `DBTX` interface |
+
+> Always run `make sqlc` after editing `query.sql` or migration files.
+
+### OpenAPI / Swagger
+
+Specs live in `src/openapi/` — one YAML file per endpoint. Running `make swag`:
+
+1. Merges all YAMLs and validates the combined spec.
+2. Generates Go DTO structs into `infrastructure/api/dto/` via `swagger generate model`.
+3. Flattens the spec to `src/static/swagger/swagger.json` (served at `/swagger/`).
+
+> Never hand-edit files in `infrastructure/api/dto/` — they are overwritten on every `make swag`.
+
+---
+
+## Key Interfaces
+
+### `IContext` — `infrastructure/core/context.go`
+
+Passed to every handler and application-layer function. Acts as the single seam between the HTTP framework and business logic.
+
+```go
+type IContext interface {
+    Storage() storage.IStorage   // tenant-scoped repositories
+    User()    *entity.User       // authenticated user (panics if not set)
+    Logger()  logger.ILogger     // structured request logger
+    AWS()     *aws.Client        // S3 client
+
+    BindJSON(target any) error                           // parse raw JSON
+    ShouldBindJSON(target interface{ Validate(...) }) error // parse + validate via Swagger
+
+    URLParam(key string) string
+    QueryParam(key string) string
+    TenantSchemaName() string
+
+    JSON(status int, v any)
+    OK(v any) | Created(v any) | NoContent()
+    BadRequest(err) | NotFound() | Unauthorized() | Forbidden()
+}
+```
+
+### `IStorage` — `infrastructure/storage/storage.go`
+
+```go
+type IStorage interface {
+    Token() repository.ITokenRepository
+    User()  repository.IUserRepository
+    Role()  repository.IRoleRepository
+}
+```
+
+A new `IStorage` is constructed on every request, wiring the tenant-specific `*sql.DB` into each repository implementation.
+
+### Repository interfaces — `domain/repository/`
+
+Defined in the domain layer; implemented in `infrastructure/storage/`. This inversion keeps the domain free of any persistence details.
+
+```go
+type IUserRepository interface {
+    GetUsers() ([]*entity.User, error)
+    GetUserByID(id int64) (*entity.User, error)
+    GetUserByEmail(email value_object.Email) (*entity.User, error)
+    CreateUser(user *entity.User) (*entity.User, error)
+    UpdateUser(user *entity.User) error
+    ChangePasswordUser(user *entity.User) (*entity.User, error)
+    DeleteUser(user *entity.User) error
+}
+```
+
