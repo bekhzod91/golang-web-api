@@ -72,3 +72,7 @@ paths:
   # Permissions
   /api/v1/permissions/list/:
     $ref: "permissions_list.yaml"
+
+  # Upload
+  /api/v1/file/upload/:
+    $ref: "file_upload.yaml"

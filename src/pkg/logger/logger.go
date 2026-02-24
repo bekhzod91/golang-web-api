@@ -1,10 +1,11 @@
 package logger
 
 import (
-	"github.com/go-chi/httplog/v2"
-	"github.com/hzmat24/api/config"
 	"log/slog"
 	"time"
+
+	"github.com/go-chi/httplog/v2"
+	"github.com/hzmat24/api/config"
 )
 
 type ILogger interface {
@@ -19,7 +20,7 @@ type logger struct {
 }
 
 func NewLogger(cfg config.Config) *httplog.Logger {
-	log := httplog.NewLogger("idh-api", httplog.Options{
+	log := httplog.NewLogger("myapp-api", httplog.Options{
 		JSON:             cfg.LogJSON,
 		LogLevel:         cfg.LogLevel,
 		Concise:          false,
