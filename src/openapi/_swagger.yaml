@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
   version: "1.0.0"
-  title: "Swagger ShipoxExpress"
-  description: "ShipoxExpress api in the swagger-2.0 specification"
+  title: "Swagger MyProject"
+  description: "MyProject api in the swagger-2.0 specification"
   termsOfService: "http://swagger.io/terms/"
   contact:
     name: "Swagger API Team"
@@ -72,3 +72,7 @@ paths:
   # Permissions
   /api/v1/permissions/list/:
     $ref: "permissions_list.yaml"
+
+  # Upload
+  /api/v1/file/upload/:
+    $ref: "file_upload.yaml"
