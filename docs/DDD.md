@@ -120,3 +120,144 @@ Rule of thumb:
 - Does it involve multiple domain objects but no infrastructure? → **Domain Service**
 - Is it a use-case that coordinates steps + persistence? → **Application Service**
 - Is it about storage/query/DB/Redis? → **Repository (infrastructure)**
+
+---
+
+## Error Handling
+
+### Rule: always use `exception.New` for domain errors
+
+Every error that originates from a **business rule violation** must be created with `exception.New` (or `exception.Errorf`) from `domain/exception`:
+
+```go
+import "github.com/hzmat24/api/domain/exception"
+
+return exception.New("Your password is too weak. Please add special characters.")
+return exception.Errorf("Status %q is not valid. Use \"active\" or \"inactive\".", value)
+```
+
+**Why:**
+`exception.New` wraps the message in the `DomainError` sentinel. Handlers detect this with `exception.IsDomainException(err)` and automatically convert it to an HTTP **400 Bad Request** with the message surfaced directly to the client:
+
+```json
+{ "message": "Your password is too weak. Please add special characters." }
+```
+
+If you return a plain `errors.New` or `fmt.Errorf` (without wrapping `DomainError`), the handler will treat it as an infrastructure failure, log it, and return an opaque **HTTP 500** — the user sees nothing useful.
+
+---
+
+### The two-part message format
+
+Every domain error message must answer two questions in one sentence:
+
+| Part | Question answered | Example |
+|---|---|---|
+| **Why** | What rule was violated? | "Your password is too weak." |
+| **How** | What should the user do to fix it? | "Please add special characters." |
+
+Structure: **`"<What went wrong>. <How to fix it>."`**
+
+✅ Good:
+
+```
+"Your password is too weak. Please add at least one special character."
+"Status \"archived\" is not valid. Use \"active\" or \"inactive\"."
+"Invalid date format. Please use YYYY-MM-DD."
+"Email is already taken. Please use a different email address."
+```
+
+❌ Bad:
+
+```
+"invalid status"              // no how-to-fix
+"error"                       // meaningless
+"something went wrong"        // use this only for unexpected infra errors, not domain errors
+"validation failed at field X" // developer-facing, not user-facing
+```
+
+---
+
+### Error type reference
+
+| Type / Constructor | Use when | HTTP result |
+|---|---|---|
+| `exception.New("…")` | Business rule violated — user can fix it | 400 Bad Request |
+| `exception.Errorf("…", args)` | Same, with dynamic values in the message | 400 Bad Request |
+| `exception.NotFoundError` | Aggregate/entity not found by ID | 404 Not Found |
+| Plain `error` (no wrapping) | Infrastructure failure (DB down, network error) | 500 Internal Server Error |
+
+#### `NotFoundError` example
+
+```go
+// domain/repository interface — implementation returns this on missing rows
+return nil, exception.NotFoundError
+```
+
+The handler checks it separately:
+
+```go
+if exception.IsNotFoundException(err) {
+    c.NotFound()
+    return
+}
+```
+
+Do **not** put a human message in `NotFoundError` — the 404 response body is always `{"message": "not found"}`.
+
+---
+
+### Where to create domain errors
+
+Create errors **as close to the violated rule as possible**:
+
+- **Value Object constructor** — if the rule is about a single value's format or range.
+- **Entity method** — if the rule involves the entity's own state.
+- **Application use-case** — if the rule requires reading from the repository first (e.g., uniqueness check).
+
+```go
+// ✅ Value Object — rule about the value itself
+func ParseStatus(s string) (Status, error) {
+    if s != "active" && s != "inactive" {
+        return "", exception.New(`Invalid status. Use "active" or "inactive".`)
+    }
+    return Status(s), nil
+}
+
+// ✅ Application use-case — rule that needs DB lookup
+func CreateUser(ctx core.IContext, req dto.CreateUserRequestDTO) (*dto.CreateUserResponseDTO, error) {
+    existing, _ := ctx.Storage().User().GetUserByEmail(email)
+    if existing != nil {
+        return nil, exception.New("Email is already taken. Please use a different email address.")
+    }
+    // …
+}
+```
+
+---
+
+### Handler pattern (for reference)
+
+Handlers must follow this exact error-check order:
+
+```go
+result, err := command.DoSomething(c, req)
+
+if exception.IsNotFoundException(err) {
+    c.NotFound()       // 404 — entity not found
+    return
+}
+if exception.IsDomainException(err) {
+    c.BadRequest(err)  // 400 — message goes straight to the client
+    return
+}
+if err != nil {
+    c.Logger().Error(err.Error())
+    c.InternalServerError() // 500 — log it, hide details from client
+    return
+}
+
+c.OK(result)
+```
+
+Never expose raw infrastructure error messages to the client.
