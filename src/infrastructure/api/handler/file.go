@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"github.com/hzmat24/api/application/command"
-	"github.com/hzmat24/api/domain/exception"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/application/command"
+	"github.com/myproject/api/domain/exception"
+	"github.com/myproject/api/infrastructure/core"
 	"net/http"
 )
 

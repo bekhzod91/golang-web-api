@@ -56,12 +56,20 @@ go install gotest.tools/gotestsum@latest
 export PATH="$PATH:$(go env GOPATH)/bin"
 ```
 
-### 4. Run migrations & start the server
+### 4. Run test
+
+```bash
+make test
+```
+
+### 5. Run migrations & start the server
 
 ```bash
 make migrate
 make run        # generates Swagger DTOs + SQLC code, then starts the server
 ```
+
+
 
 API is available at **http://localhost:8000** · Swagger UI at **/static/swagger/**.
 

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	pulsar2 "github.com/apache/pulsar-client-go/pulsar"
-	"github.com/hzmat24/api/pkg/pulsar"
+	"github.com/myproject/api/pkg/pulsar"
 	"time"
 )
 

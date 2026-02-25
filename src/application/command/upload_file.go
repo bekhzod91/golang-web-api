@@ -3,9 +3,9 @@ package command
 import (
 	"context"
 	"fmt"
-	"github.com/hzmat24/api/domain/exception"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/domain/exception"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 	"path/filepath"
 	"strings"
 	"time"

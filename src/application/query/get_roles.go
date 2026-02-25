@@ -1,11 +1,11 @@
 package query
 
 import (
-	"github.com/hzmat24/api/domain/repository"
-	"github.com/hzmat24/api/domain/value_object"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/api/helper"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/domain/repository"
+	"github.com/myproject/api/domain/value_object"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/api/helper"
+	"github.com/myproject/api/infrastructure/core"
 	"time"
 )
 

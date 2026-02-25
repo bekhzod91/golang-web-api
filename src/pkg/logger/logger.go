@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-chi/httplog/v2"
-	"github.com/hzmat24/api/config"
+	"github.com/myproject/api/config"
 )
 
 type ILogger interface {

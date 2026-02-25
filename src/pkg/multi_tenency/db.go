@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/hzmat24/api/config"
-	"github.com/hzmat24/api/infrastructure/sqlc"
-	"github.com/hzmat24/api/pkg/postgres"
+	"github.com/myproject/api/config"
+	"github.com/myproject/api/infrastructure/sqlc"
+	"github.com/myproject/api/pkg/postgres"
 )
 
 type DB struct {

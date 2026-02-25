@@ -2,8 +2,8 @@ package test_user
 
 import (
 	"bytes"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/tests"
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
@@ -26,7 +26,7 @@ func TestUserCreate(t *testing.T) {
 		Status:    "active",
 		BirthDate: "2002-02-02",
 		Phone:     "998947654321",
-		Photo:     "https://cdn.idh.com/MyCreatePhoto.jpeg",
+		Photo:     "https://cdn.myproject.com/MyCreatePhoto.jpeg",
 		Roles:     []int64{3, 2},
 	}
 	body, _ := data.MarshalBinary()
@@ -44,7 +44,7 @@ func TestUserCreate(t *testing.T) {
 	require.Nil(t, err)
 	require.EqualValues(t, user.Email.String(), "adam.smith@gmail.com")
 	require.True(t, user.Password.VerifyPassword("Test1234"))
-	require.EqualValues(t, user.Photo, "https://cdn.idh.com/MyCreatePhoto.jpeg")
+	require.EqualValues(t, user.Photo, "https://cdn.myproject.com/MyCreatePhoto.jpeg")
 	require.EqualValues(t, user.FirstName, "Adam")
 	require.EqualValues(t, user.LastName, "Smith")
 	require.EqualValues(t, user.Status, "active")
@@ -103,7 +103,7 @@ func TestUserCreateIncorrectEmail(t *testing.T) {
 		Status:    "active",
 		BirthDate: "2002-02-02",
 		Phone:     "998947654321",
-		Photo:     "https://cdn.idh.com/MyCreatePhoto.jpeg",
+		Photo:     "https://cdn.myproject.com/MyCreatePhoto.jpeg",
 		Roles:     []int64{3, 2},
 	}
 	body, _ := data.MarshalBinary()
@@ -137,7 +137,7 @@ func TestUserCreateIncorrectPasswordCase1(t *testing.T) {
 		Status:    "active",
 		BirthDate: "2002-02-02",
 		Phone:     "998947654321",
-		Photo:     "https://cdn.idh.com/MyCreatePhoto.jpeg",
+		Photo:     "https://cdn.myproject.com/MyCreatePhoto.jpeg",
 		Roles:     []int64{3, 2},
 	}
 	body, _ := data.MarshalBinary()
@@ -171,7 +171,7 @@ func TestUserCreateIncorrectPasswordCase2(t *testing.T) {
 		Status:    "active",
 		BirthDate: "2002-02-02",
 		Phone:     "998947654321",
-		Photo:     "https://cdn.idh.com/MyCreatePhoto.jpeg",
+		Photo:     "https://cdn.myproject.com/MyCreatePhoto.jpeg",
 		Roles:     []int64{3, 2},
 	}
 	body, _ := data.MarshalBinary()
@@ -205,7 +205,7 @@ func TestUserCreateIncorrectStatus(t *testing.T) {
 		Status:    "newsstatus",
 		BirthDate: "2002-02-02",
 		Phone:     "998947654321",
-		Photo:     "https://cdn.idh.com/MyCreatePhoto.jpeg",
+		Photo:     "https://cdn.myproject.com/MyCreatePhoto.jpeg",
 		Roles:     []int64{3, 2},
 	}
 	body, _ := data.MarshalBinary()
@@ -239,7 +239,7 @@ func TestUserCreateIncorrectPhone(t *testing.T) {
 		Status:    "active",
 		BirthDate: "2002-02-02",
 		Phone:     "ab123123123",
-		Photo:     "https://cdn.idh.com/MyCreatePhoto.jpeg",
+		Photo:     "https://cdn.myproject.com/MyCreatePhoto.jpeg",
 		Roles:     []int64{3, 2},
 	}
 	body, _ := data.MarshalBinary()

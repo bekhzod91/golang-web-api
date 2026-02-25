@@ -2,8 +2,8 @@ package value_object
 
 import (
 	"fmt"
-	"github.com/hzmat24/api/domain/exception"
-	"github.com/hzmat24/api/pkg/randutil"
+	"github.com/myproject/api/domain/exception"
+	"github.com/myproject/api/pkg/randutil"
 	"strings"
 )
 

@@ -28,7 +28,7 @@ definitions:
         example: "active"
       photo:
         type: string
-        example: "https://cdn.idh.com/myphoto.png"
+        example: "https://cdn.myproject.com/myphoto.png"
       first_name:
         type: string
         example: "nicole"

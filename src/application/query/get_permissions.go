@@ -1,10 +1,10 @@
 package query
 
 import (
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 
-	"github.com/hzmat24/api/domain/value_object"
+	"github.com/myproject/api/domain/value_object"
 )
 
 func GetPermissions(c core.IContext) *dto.ListPermissionResponseDTO {

@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/hzmat24/api/infrastructure/migrations"
-	"github.com/hzmat24/api/pkg/multi_tenency"
+	"github.com/myproject/api/infrastructure/migrations"
+	"github.com/myproject/api/pkg/multi_tenency"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -18,9 +18,9 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 
-	"github.com/hzmat24/api/domain/value_object"
-	"github.com/hzmat24/api/infrastructure/storage"
-	"github.com/hzmat24/api/pkg/funcutils"
+	"github.com/myproject/api/domain/value_object"
+	"github.com/myproject/api/infrastructure/storage"
+	"github.com/myproject/api/pkg/funcutils"
 )
 
 var TestTenant = "test_tenant"

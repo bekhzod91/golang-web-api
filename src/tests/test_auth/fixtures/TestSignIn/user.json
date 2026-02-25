@@ -7,7 +7,7 @@
       "email": "admin@gmail.com",
       "password": "$2a$14$ER1uhzoL/kcJ0FVgqwdSyu3biFrgIJCBl.XPolfw0HyTBSmoup3lK",
       "status": "active",
-      "photo": "https://cdn.idh.com/myphoto.jpeg",
+      "photo": "https://cdn.myproject.com/myphoto.jpeg",
       "first_name": "Adam",
       "last_name": "Smith",
       "role_ids": [2, 3],

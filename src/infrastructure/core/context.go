@@ -1,17 +1,17 @@
 package core
 
 import (
-	"github.com/hzmat24/api/pkg/aws"
-	"github.com/hzmat24/api/pkg/multi_tenency"
+	"github.com/myproject/api/pkg/aws"
+	"github.com/myproject/api/pkg/multi_tenency"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/httplog/v2"
 	"github.com/go-openapi/strfmt"
 
-	"github.com/hzmat24/api/domain/entity"
-	"github.com/hzmat24/api/infrastructure/storage"
-	"github.com/hzmat24/api/pkg/logger"
+	"github.com/myproject/api/domain/entity"
+	"github.com/myproject/api/infrastructure/storage"
+	"github.com/myproject/api/pkg/logger"
 )
 
 type IContext interface {

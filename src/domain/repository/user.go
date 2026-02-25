@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/hzmat24/api/domain/entity"
-	"github.com/hzmat24/api/domain/value_object"
+	"github.com/myproject/api/domain/entity"
+	"github.com/myproject/api/domain/value_object"
 )
 
 type IUserRepository interface {

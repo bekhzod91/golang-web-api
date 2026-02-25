@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hzmat24/api/domain/value_object"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/domain/value_object"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func ChangeUserPassword(ctx core.IContext, id int64, request dto.ChangePasswordUserRequestDTO) (*dto.ChangePasswordUserResponseDTO, error) {

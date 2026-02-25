@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-openapi/strfmt"
-	"github.com/hzmat24/api/infrastructure/api/router"
+	"github.com/myproject/api/infrastructure/api/router"
 	"io"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func NewTestApp(t *testing.T) *core.TestApp {

@@ -3,8 +3,8 @@ package command
 import (
 	"fmt"
 
-	"github.com/hzmat24/api/domain/exception"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/domain/exception"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func DeleteRole(c core.IContext, id int64) error {

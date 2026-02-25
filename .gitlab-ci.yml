@@ -1,5 +1,5 @@
 variables:
-  IMAGE: "registry.github.com/hzmat24/api:$CI_COMMIT_SHA"
+  IMAGE: "registry.github.com/myproject/api:$CI_COMMIT_SHA"
 
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY

@@ -35,7 +35,7 @@ definitions:
       photo:
         type: string
         x-isnullable: false
-        example: "https://cdn.idh.com/myphoto.png"
+        example: "https://cdn.myproject.com/myphoto.png"
       first_name:
         type: string
         x-isnullable: false

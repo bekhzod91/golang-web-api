@@ -3,10 +3,10 @@ package handler
 import (
 	"net/http"
 
-	"github.com/hzmat24/api/application/command"
-	"github.com/hzmat24/api/application/query"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/application/command"
+	"github.com/myproject/api/application/query"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func SignInHandler(c core.IContext) {

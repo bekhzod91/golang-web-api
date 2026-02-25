@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/hzmat24/api/infrastructure/api/router"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/infrastructure/api/router"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func main() {

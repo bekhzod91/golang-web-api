@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hzmat24/api/domain/exception"
+	"github.com/myproject/api/domain/exception"
 )
 
 type PhoneNumber string

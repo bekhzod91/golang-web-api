@@ -3,8 +3,8 @@ package command
 import (
 	"strings"
 
-	"github.com/hzmat24/api/domain/value_object"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/domain/value_object"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func SignOut(ctx core.IContext) error {

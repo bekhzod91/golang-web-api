@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/tests"
 	"github.com/stretchr/testify/require"
 )
 

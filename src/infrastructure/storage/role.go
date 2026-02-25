@@ -6,12 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/hzmat24/api/domain/exception"
+	"github.com/myproject/api/domain/exception"
 
-	"github.com/hzmat24/api/domain/entity"
-	"github.com/hzmat24/api/domain/repository"
-	"github.com/hzmat24/api/domain/value_object"
-	"github.com/hzmat24/api/infrastructure/sqlc"
+	"github.com/myproject/api/domain/entity"
+	"github.com/myproject/api/domain/repository"
+	"github.com/myproject/api/domain/value_object"
+	"github.com/myproject/api/infrastructure/sqlc"
 )
 
 type roleRepository struct {

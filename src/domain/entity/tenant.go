@@ -2,7 +2,7 @@ package entity
 
 import (
 	"encoding/json"
-	value_object2 "github.com/hzmat24/api/domain/value_object"
+	value_object2 "github.com/myproject/api/domain/value_object"
 )
 
 type Tenant struct {

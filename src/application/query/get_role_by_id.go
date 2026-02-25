@@ -2,8 +2,8 @@ package query
 
 import (
 	"fmt"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func GetRoleByID(c core.IContext, id int64) (*dto.DetailRoleResponseDTO, error) {

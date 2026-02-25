@@ -1,4 +1,4 @@
-module github.com/hzmat24/api
+module github.com/myproject/api
 
 go 1.26
 

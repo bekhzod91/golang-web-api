@@ -2,7 +2,7 @@ package value_object
 
 import (
 	"fmt"
-	"github.com/hzmat24/api/domain/exception"
+	"github.com/myproject/api/domain/exception"
 	"time"
 )
 

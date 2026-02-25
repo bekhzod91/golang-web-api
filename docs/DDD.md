@@ -186,7 +186,7 @@ Rule of thumb:
 Every error that originates from a **business rule violation** must be created with `exception.New` (or `exception.Errorf`) from `domain/exception`:
 
 ```go
-import "github.com/hzmat24/api/domain/exception"
+import "github.com/myproject/api/domain/exception"
 
 return exception.New("Your password is too weak. Please add special characters.")
 return exception.Errorf("Status %q is not valid. Use \"active\" or \"inactive\".", value)

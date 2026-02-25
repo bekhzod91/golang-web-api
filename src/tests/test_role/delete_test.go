@@ -7,9 +7,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/hzmat24/api/domain/exception"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/domain/exception"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/tests"
 )
 
 func TestRoleUpdateDelete(t *testing.T) {

@@ -7,7 +7,7 @@
       "email": "admin@example.com",
       "password": "$2a$14$bU2PsnNVKvgv7wOShwldIOimkAXMEIBx76g0CaM6QzWuO5inacI1O",
       "status": "active",
-      "photo": "https://cdn.idh.com/myphoto.jpeg",
+      "photo": "https://cdn.myproject.com/myphoto.jpeg",
       "first_name": "Adam",
       "last_name": "Smith",
       "role_ids": [1, 2, 3],

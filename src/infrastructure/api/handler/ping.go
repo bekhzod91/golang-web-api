@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func Ping(c core.IContext) {

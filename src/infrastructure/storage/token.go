@@ -7,9 +7,9 @@ import (
 	"github.com/redis/go-redis/v9"
 	"time"
 
-	"github.com/hzmat24/api/domain/entity"
-	"github.com/hzmat24/api/domain/repository"
-	"github.com/hzmat24/api/domain/value_object"
+	"github.com/myproject/api/domain/entity"
+	"github.com/myproject/api/domain/repository"
+	"github.com/myproject/api/domain/value_object"
 )
 
 var ctx = context.Background()

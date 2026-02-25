@@ -3,11 +3,11 @@ package command
 import (
 	"errors"
 	"fmt"
-	"github.com/hzmat24/api/domain/exception"
+	"github.com/myproject/api/domain/exception"
 
-	"github.com/hzmat24/api/domain/entity"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/domain/entity"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func CreateRole(c core.IContext, request dto.CreateRoleRequestDTO) (*dto.CreateRoleResponseDTO, error) {

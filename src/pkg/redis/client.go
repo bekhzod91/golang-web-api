@@ -3,7 +3,7 @@ package redis
 import (
 	"context"
 	"fmt"
-	"github.com/hzmat24/api/config"
+	"github.com/myproject/api/config"
 	"github.com/redis/go-redis/v9"
 )
 

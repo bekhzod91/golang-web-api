@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/hzmat24/api/domain/entity"
+	"github.com/myproject/api/domain/entity"
 	"time"
 )
 

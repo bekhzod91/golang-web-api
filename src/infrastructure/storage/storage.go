@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/hzmat24/api/domain/repository"
+	"github.com/myproject/api/domain/repository"
 )
 
 type IStorage interface {

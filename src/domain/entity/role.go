@@ -2,7 +2,7 @@ package entity
 
 import (
 	"encoding/json"
-	"github.com/hzmat24/api/domain/value_object"
+	"github.com/myproject/api/domain/value_object"
 )
 
 type Role struct {

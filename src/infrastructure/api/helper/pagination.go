@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"github.com/hzmat24/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/api/dto"
 	"strconv"
 )
 

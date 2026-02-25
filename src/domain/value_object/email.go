@@ -1,7 +1,7 @@
 package value_object
 
 import (
-	"github.com/hzmat24/api/domain/exception"
+	"github.com/myproject/api/domain/exception"
 	"regexp"
 	"strings"
 )

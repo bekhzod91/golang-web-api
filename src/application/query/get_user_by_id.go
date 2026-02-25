@@ -1,8 +1,8 @@
 package query
 
 import (
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func GetUserByID(ctx core.IContext, id int64) (*dto.DetailUserResponseDTO, error) {

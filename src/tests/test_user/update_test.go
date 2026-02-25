@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/tests"
 	"github.com/stretchr/testify/require"
 )
 
@@ -25,7 +25,7 @@ func TestUserUpdate(t *testing.T) {
 		Status:    "inactive",
 		BirthDate: "2002-02-02",
 		Phone:     "998947654321",
-		Photo:     "https://cdn.idh.com/MyCreatePhoto2.jpeg",
+		Photo:     "https://cdn.myproject.com/MyCreatePhoto2.jpeg",
 		Roles:     []int64{3, 2},
 	}
 	body, _ := data.MarshalBinary()
@@ -45,7 +45,7 @@ func TestUserUpdate(t *testing.T) {
 	require.EqualValues(t, user.FirstName, "Firstname")
 	require.EqualValues(t, user.LastName, "Lastname")
 	require.EqualValues(t, user.Status, "inactive")
-	require.EqualValues(t, user.Photo, "https://cdn.idh.com/MyCreatePhoto2.jpeg")
+	require.EqualValues(t, user.Photo, "https://cdn.myproject.com/MyCreatePhoto2.jpeg")
 	require.EqualValues(t, user.BirthDate.String(), "2002-02-02")
 	require.EqualValues(t, user.Phone, "998947654321")
 	require.EqualValues(t, user.Roles[0].ID, 2)

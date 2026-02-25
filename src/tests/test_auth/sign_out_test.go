@@ -1,7 +1,7 @@
 package test_auth
 
 import (
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/tests"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"

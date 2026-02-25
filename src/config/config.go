@@ -2,7 +2,7 @@ package config
 
 import (
 	"crypto/tls"
-	"github.com/hzmat24/api/pkg/env"
+	"github.com/myproject/api/pkg/env"
 	"github.com/spf13/cast"
 	"log/slog"
 	"os"
@@ -120,11 +120,11 @@ func NewConfig() Config {
 	config.LogJSON = cast.ToBool(getOrReturnDefault("LOG_JSON", false))
 
 	// AWS S3
-	config.AWSBaseEndpoint = cast.ToString(getOrReturnDefault("AWS_BASE_ENDPOINT", "https://dev-s3.idh.zip24.com"))
+	config.AWSBaseEndpoint = cast.ToString(getOrReturnDefault("AWS_BASE_ENDPOINT", "https://dev-s3.myproject.zip24.com"))
 	config.AWSRegion = cast.ToString(getOrReturnDefault("AWS_REGION", "us-east-1"))
 	config.AWSAccessKeyID = cast.ToString(getOrReturnDefault("AWS_ACCESS_KEY_ID", "24vz49RGoAqopR84fTJe"))
 	config.AWSSecretAccessKey = cast.ToString(getOrReturnDefault("AWS_SECRET_ACCESS_KEY", "QxVlmAdGN5n4xt0YoM8bccFNSaAWZTOh5Yj0Vk4r"))
-	config.AWSBucket = cast.ToString(getOrReturnDefault("AWS_BUCKET", "idh"))
+	config.AWSBucket = cast.ToString(getOrReturnDefault("AWS_BUCKET", "myproject"))
 
 	config.PaginationLimit = cast.ToInt(getOrReturnDefault("PAGINATION_LIMIT", 10))
 

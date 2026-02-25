@@ -1,12 +1,12 @@
 package test_auth
 
 import (
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/tests"
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
 
-	"github.com/hzmat24/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/api/dto"
 )
 
 func TestMe(t *testing.T) {
@@ -32,7 +32,7 @@ func TestMe(t *testing.T) {
 	require.EqualValues(t, response.LastName, "Smith")
 	require.EqualValues(t, response.Email, "admin@example.com")
 	require.EqualValues(t, response.Status, "active")
-	require.EqualValues(t, response.Photo, "https://cdn.idh.com/myphoto.jpeg")
+	require.EqualValues(t, response.Photo, "https://cdn.myproject.com/myphoto.jpeg")
 	require.EqualValues(t, response.Roles[0].ID, 1)
 	require.EqualValues(t, response.Roles[0].Name, "Admin")
 	require.EqualValues(t, response.Roles[1].ID, 2)

@@ -7,8 +7,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/tests"
 )
 
 func TestRoleUpdate(t *testing.T) {

@@ -3,7 +3,7 @@ package value_object
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/hzmat24/api/domain/exception"
+	"github.com/myproject/api/domain/exception"
 	"strings"
 	"time"
 )

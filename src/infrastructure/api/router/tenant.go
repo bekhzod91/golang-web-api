@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/hzmat24/api/infrastructure/api/handler"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/infrastructure/api/handler"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func TenantRoutes(r core.IMux) {

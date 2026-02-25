@@ -3,10 +3,10 @@ package command
 import (
 	"errors"
 	"fmt"
-	"github.com/hzmat24/api/domain/entity"
-	"github.com/hzmat24/api/domain/value_object"
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/infrastructure/core"
+	"github.com/myproject/api/domain/entity"
+	"github.com/myproject/api/domain/value_object"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/infrastructure/core"
 )
 
 func UpdateUserProfile(c core.IContext, id int64, request dto.UpdateUserRequestDTO) (*dto.UpdateUserResponseDTO, error) {

@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/hzmat24/api/infrastructure/api/dto"
-	"github.com/hzmat24/api/tests"
+	"github.com/myproject/api/infrastructure/api/dto"
+	"github.com/myproject/api/tests"
 	"github.com/stretchr/testify/require"
 )
 
@@ -37,7 +37,7 @@ func TestUserDetail(t *testing.T) {
 	require.EqualValues(t, response.LastLogin, "2024-01-01 00:00:00")
 	require.EqualValues(t, response.CreatedAt, "2024-01-02 00:00:00")
 	require.EqualValues(t, response.UpdatedAt, "2024-02-03 00:00:00")
-	require.EqualValues(t, response.Photo, "https://cdn.idh.com/myphoto.jpeg")
+	require.EqualValues(t, response.Photo, "https://cdn.myproject.com/myphoto.jpeg")
 	require.EqualValues(t, response.Roles[0].ID, 2)
 	require.EqualValues(t, response.Roles[0].Name, "Operator")
 	require.EqualValues(t, response.Roles[0].Permissions, []string{"view_user"})

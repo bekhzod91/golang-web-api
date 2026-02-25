@@ -3,17 +3,17 @@ package core
 import (
 	"fmt"
 	"github.com/go-chi/cors"
-	"github.com/hzmat24/api/pkg/aws"
-	"github.com/hzmat24/api/pkg/multi_tenency"
+	"github.com/myproject/api/pkg/aws"
+	"github.com/myproject/api/pkg/multi_tenency"
 	"net/http"
 
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/httplog/v2"
 	goredis "github.com/redis/go-redis/v9"
 
-	configPkg "github.com/hzmat24/api/config"
-	loggerPkg "github.com/hzmat24/api/pkg/logger"
-	redisPkg "github.com/hzmat24/api/pkg/redis"
+	configPkg "github.com/myproject/api/config"
+	loggerPkg "github.com/myproject/api/pkg/logger"
+	redisPkg "github.com/myproject/api/pkg/redis"
 )
 
 var BRAND = `
