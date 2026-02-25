@@ -1,6 +1,6 @@
 module github.com/hzmat24/api
 
-go 1.23.6
+go 1.26
 
 require (
 	github.com/apache/pulsar-client-go v0.15.1

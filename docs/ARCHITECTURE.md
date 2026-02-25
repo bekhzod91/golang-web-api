@@ -10,7 +10,7 @@ This project is a **multi-tenant REST API** built in Go, following **Clean Archi
 
 | Concern | Technology |
 |---------|-----------|
-| Language | Go 1.23 |
+| Language | Go 1.26 |
 | HTTP Router | [chi](https://github.com/go-chi/chi) |
 | Database | PostgreSQL (`pgx` / `database/sql`) |
 | Cache / Token store | Redis |
@@ -304,4 +304,3 @@ type IUserRepository interface {
     DeleteUser(user *entity.User) error
 }
 ```
-

@@ -10,7 +10,7 @@ Ensure the following tools are installed before proceeding:
 
 | Tool | Version | Notes |
 |------|---------|-------|
-| [Go](https://go.dev/dl/) | ≥ 1.23 | Required to build and run the server |
+| [Go](https://go.dev/dl/) | ≥ 1.26 | Required to build and run the server |
 | [Docker](https://docs.docker.com/get-docker/) | any recent | Runs PostgreSQL and Redis locally |
 | `make` | any | Used for all dev workflow commands |
 | `psql` | any | PostgreSQL CLI client (for schema setup) |

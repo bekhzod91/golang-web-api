@@ -8,7 +8,7 @@ A **multi-tenant REST API** built in Go, following **Clean Architecture** and **
 
 | Concern | Technology |
 |---|---|
-| Language | Go 1.23 |
+| Language | Go 1.26 |
 | HTTP Router | [chi](https://github.com/go-chi/chi) |
 | Database | PostgreSQL (`pgx` / `database/sql`) |
 | Cache / Token store | Redis |
@@ -26,7 +26,7 @@ A **multi-tenant REST API** built in Go, following **Clean Architecture** and **
 
 | Tool | Version |
 |---|---|
-| [Go](https://go.dev/dl/) | ≥ 1.23 |
+| [Go](https://go.dev/dl/) | ≥ 1.26 |
 | [Docker](https://docs.docker.com/get-docker/) | any recent |
 | `make` | any |
 | `psql` | any |
