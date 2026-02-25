@@ -93,6 +93,62 @@ Rule of thumb:
 
 Keep this layer thin: **no deep business rules**, those belong to the domain.
 
+#### Optional style: isolate use-case-specific helper methods
+
+When a use-case needs internal helper methods (for example, user lookup) and the logic differs from other use-cases, isolate that logic inside a dedicated use-case service struct.
+
+- Keep the public entrypoint as `func UseCase(ctx core.IContext, ...)`.
+- Create an internal struct that stores `ctx` for the use-case.
+- Use intent-specific method names such as `loadUserForPasswordChange` or `loadUserForSignIn` (avoid generic shared names like `getUser` across different use-cases).
+
+Simple example:
+
+```go
+func ChangeUserPassword(ctx core.IContext, id int64, req dto.ChangePasswordUserRequestDTO) (*dto.ChangePasswordUserResponseDTO, error) {
+	s := &changeUserPassword{ctx: ctx}
+	user, err := s.loadUserForPasswordChange(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := s.changePassword(user, req.NewPassword); err != nil {
+		return nil, err
+	}
+
+	return &dto.ChangePasswordUserResponseDTO{ID: user.ID}, nil
+}
+
+type changeUserPassword struct {
+	ctx core.IContext
+}
+
+func (s *changeUserPassword) loadUserForPasswordChange(id int64) (*entity.User, error) {
+	user, err := s.ctx.Storage().User().GetUserByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if user.Status != value_object.StatusActive {
+		return nil, exception.New("User is inactive. Please contact support.")
+	}
+
+	return user, nil
+}
+
+func (s *changeUserPassword) changePassword(user *entity.User, newPassword string) error {
+	password, err := value_object.NewPassword(newPassword)
+	if err != nil {
+		return err
+	}
+
+	user.Password = password
+	_, err = s.ctx.Storage().User().ChangePasswordUser(user)
+	return err
+}
+```
+
+Use this pattern only when it improves clarity; for simple flows, a single function is preferred.
+
 ---
 
 #### 5) Repositories (persistence abstraction — NOT business logic)
