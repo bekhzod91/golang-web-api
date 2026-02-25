@@ -1,12 +1,12 @@
 include .env
 
 swag:
-	rm -rf src/internal/infrastructure/api/dto/*
+	rm -rf src/infrastructure/api/dto/*
 	swagger generate model --spec=src/openapi/_swagger.yaml --target=src/infrastructure/api --model-package=dto
 	swagger flatten src/openapi/_swagger.yaml --output=src/static/swagger/swagger.json
 
 swag-validate:
-	swagger validate src/openapi/swagger.yaml
+	swagger validate src/openapi/_swagger.yaml
 
 run:
 	make swag && make sqlc && cd src && go run cmd/server/main.go

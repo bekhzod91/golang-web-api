@@ -101,7 +101,7 @@ func (a *App) Run() {
 	fmt.Printf("POSTGRES_PORT: %d\n", a.config.PostgresPort)
 	fmt.Printf("POSTGRES_USER: %s\n", a.config.PostgresUser)
 	fmt.Printf("POSTGRES_PASSWORD: ******************\n")
-	fmt.Printf("POSTGRES_USER: %s\n", a.config.PostgresDatabase)
+	fmt.Printf("POSTGRES_DATABASE: %s\n", a.config.PostgresDatabase)
 	fmt.Printf("POSTGRES_SCHEMA: %s\n", a.config.PostgresSchema)
 	fmt.Printf("POSTGRES_TLS: %t\n", a.config.PostgresTLSEnabled)
 	fmt.Printf("-----------------------------------------------\n")
