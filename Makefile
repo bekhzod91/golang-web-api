@@ -21,11 +21,7 @@ migrate:
 	cd src && go run cmd/migrate/main.go
 
 test:
-	cd src \
-	&& gotestsum --format testname -- ./tests/test_auth/ \
-	&& gotestsum --format testname -- ./tests/test_role/ \
-	&& gotestsum --format testname -- ./tests/test_user/ \
-	&& gotestsum --format testname -- ./tests/test_permissions/ \
+	cd src && gotestsum --format testname -- ./tests/...
 
 sqlc:
 	cd src && sqlc generate
